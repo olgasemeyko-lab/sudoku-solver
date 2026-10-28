@@ -10,7 +10,7 @@ Recognize a Sudoku from a screenshot and solve it, all in the browser.
 - [x] Step 2: web page with an editable grid
 - [x] Step 3: find the grid in an uploaded image, straighten it and cut it into 81 cells
 - [x] Step 4: read the digits with a small neural network (99.5% correct on fonts it never saw in training)
-- [x] Step 5: number pad and upload button for phones; published on GitHub Pages
+- [x] Step 5: "Take a photo" button, number pad and upload button for phones; published on GitHub Pages
 
 ## Retrain the digit reader
 
@@ -37,7 +37,3 @@ node --test
 
 Open `index.html` in a web browser. No installation needed.
 
-Browsers don't let a page opened straight from a file read its own example
-image, so the "Use your example screenshot" button only works when the page is
-served from a website (such as GitHub Pages, in step 5). Uploading an image
-works everywhere: choose `examples/screenshot.png`.

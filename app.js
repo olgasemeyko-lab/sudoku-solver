@@ -25,6 +25,8 @@ let puzzle = parseGrid(EXAMPLES.screenshot);
 let result = null;
 // Cells read from an image that the digit reader wasn't sure about.
 let unsure = new Set();
+// True while the grid shows digits read from a picture, until the user edits it.
+let fromPicture = false;
 
 const board = document.getElementById("board");
 const statusBox = document.getElementById("status");
@@ -76,6 +78,7 @@ function onType(i) {
 // Put a digit (or 0 for empty) in a cell.
 function setCell(i, digit) {
   puzzle[i] = digit;
+  fromPicture = false;
   unsure.delete(i); // the user has now checked this cell
   result = null; // the puzzle changed, so any old solution is out of date
   render();
@@ -140,6 +143,7 @@ function loadPuzzle(text) {
   puzzle = parseGrid(text);
   result = null;
   unsure = new Set();
+  fromPicture = false;
   render();
 }
 
@@ -147,6 +151,7 @@ function loadPuzzle(text) {
 // Digits read with less than 90% confidence are marked for checking.
 function loadRecognized(readings) {
   puzzle = readings.map((r) => r.digit);
+  fromPicture = true;
   unsure = new Set();
   readings.forEach((r, i) => {
     if (r.digit !== 0 && r.confidence < 0.9) unsure.add(i);
@@ -189,10 +194,13 @@ function showStatus(clashCount) {
       setStatus("bad", "Some digits clash.",
         "The cells in red share a digit with another cell in the same row, column or box. Fix them before solving.");
     } else if (unsure.size > 0) {
-      setStatus("warn", count + " digits read from your image.",
+      setStatus("warn", count + " digits read from your picture.",
         unsure.size === 1
           ? "One was hard to read and has a dashed outline. Check it against your picture, then press Solve."
           : unsure.size + " were hard to read and have a dashed outline. Check them against your picture, then press Solve.");
+    } else if (fromPicture) {
+      setStatus("good", count + " digits read from your picture.",
+        "Check that they match your puzzle, then press Solve.");
     } else if (count === 0) {
       setStatus("", "The grid is empty.", "Click a cell and type a digit, or load an example.");
     } else if (count < 17) {

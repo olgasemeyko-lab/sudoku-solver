@@ -17,10 +17,14 @@
   <div class="page">
     <header class="masthead">
       <h1>Sudoku Solver</h1>
-      <p class="lede">Upload a screenshot of a Sudoku, or type its digits into the grid, then press Solve. Everything runs in your browser; your images aren't sent anywhere.</p>
+      <p class="lede">Take a photo or upload a screenshot of a Sudoku, or type its digits into the grid, then press Solve. Everything runs in your browser; your pictures aren't sent anywhere.</p>
       <div class="actions">
-        <button id="upload-top" class="btn btn-primary" type="button">Upload a screenshot</button>
+        <button id="take-photo" class="btn btn-primary" type="button" hidden>Take a photo</button>
+        <button id="upload" class="btn btn-primary" type="button">Upload a screenshot</button>
       </div>
+      <input id="photo-input" type="file" accept="image/*" capture="environment" hidden>
+      <input id="image-input" type="file" accept="image/*" hidden>
+      <p id="drop-hint" class="hint">You can also drag a picture onto the page, or paste one with Ctrl+V (Cmd+V on a Mac).</p>
     </header>
 
     <main class="workspace">
@@ -75,37 +79,6 @@
       </aside>
     </main>
 
-    <section id="reader" class="reader" aria-labelledby="reader-title">
-      <div class="reader-head">
-        <h2 id="reader-title" class="section-title">Read a puzzle from an image</h2>
-        <p class="lede">Upload a screenshot or scan of a Sudoku. The app finds the grid, reads the digits and puts them into the grid above, where you can check them before solving.</p>
-        <div class="actions">
-          <label class="btn btn-primary file-button">
-            Upload image
-            <input id="image-input" type="file" accept="image/*">
-          </label>
-          <button id="example-image" class="btn btn-quiet" type="button">Use your example screenshot</button>
-        </div>
-        <p class="hint">You can also drag an image onto this section, or paste one with Ctrl+V (Cmd+V on a Mac).</p>
-      </div>
-
-      <p id="reader-status" class="status" role="status" aria-live="polite" hidden></p>
-
-      <div id="reader-steps" class="reader-steps" hidden>
-        <figure>
-          <figcaption><span class="step-no">1</span> Grid found</figcaption>
-          <canvas id="found-canvas" class="shot" aria-label="Your image with the detected grid outlined"></canvas>
-        </figure>
-        <figure>
-          <figcaption><span class="step-no">2</span> Straightened</figcaption>
-          <canvas id="warped-canvas" class="shot" aria-label="The grid, straightened into a square"></canvas>
-        </figure>
-        <figure>
-          <figcaption><span class="step-no">3</span> Cut into cells and read</figcaption>
-          <div id="cell-tiles" class="cell-tiles" aria-label="The 81 cell images"></div>
-        </figure>
-      </div>
-    </section>
   </div>
 
   <script src="solver.js"></script>
