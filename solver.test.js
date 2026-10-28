@@ -45,7 +45,8 @@ test("warns that the example puzzle has more than one answer", () => {
   const result = solveSudoku(puzzle);
   assert.strictEqual(result.status, "multiple");
   assert.ok(isValidSolution(result.solution));
-  console.log(formatGrid(result.solution));
+  assert.ok(isValidSolution(result.alternative));
+  assert.notDeepStrictEqual(result.solution, result.alternative);
 });
 
 test("flags two equal digits in a row as a conflict", () => {

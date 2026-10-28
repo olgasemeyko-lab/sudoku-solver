@@ -124,7 +124,11 @@ function solveSudoku(grid) {
   }
   const solutions = findSolutions(grid, 2);
   if (solutions.length === 0) return { status: "unsolvable" };
-  if (solutions.length > 1) return { status: "multiple", solution: solutions[0] };
+  if (solutions.length > 1) {
+    // Return two different solutions, so the page can point out
+    // the cells where they disagree.
+    return { status: "multiple", solution: solutions[0], alternative: solutions[1] };
+  }
   return { status: "solved", solution: solutions[0] };
 }
 

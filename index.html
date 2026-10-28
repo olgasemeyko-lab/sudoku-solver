@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sudoku Solver</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <h1>Sudoku Solver</h1>
+      <p class="lede">Type the puzzle's digits into the grid, or paste all 81 cells as text, then press Solve.</p>
+    </header>
+
+    <main class="workspace">
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Sudoku grid, 9 by 9"></div>
+        <ul class="legend" aria-label="What the colours mean">
+          <li><span class="swatch swatch-given">5</span>Your digit</li>
+          <li><span class="swatch swatch-solved">5</span>Filled by the solver</li>
+          <li><span class="swatch swatch-clash">5</span>Clashes with another cell</li>
+          <li><span class="swatch swatch-maybe">5</span>Could be a different digit</li>
+        </ul>
+      </div>
+
+      <aside class="panel">
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+
+        <div class="actions">
+          <button id="solve" class="btn btn-primary" type="button">Solve</button>
+          <button id="hide" class="btn" type="button">Hide solution</button>
+          <button id="clear" class="btn" type="button">Clear grid</button>
+        </div>
+
+        <section class="examples" aria-labelledby="examples-title">
+          <h2 id="examples-title">Examples</h2>
+          <div class="actions">
+            <button id="example-screenshot" class="btn btn-quiet" type="button">Your screenshot</button>
+            <button id="example-classic" class="btn btn-quiet" type="button">Classic, one solution</button>
+          </div>
+        </section>
+
+        <section class="tips" aria-labelledby="tips-title">
+          <h2 id="tips-title">Tips</h2>
+          <ul>
+            <li>Arrow keys move between cells. Backspace or 0 empties a cell.</li>
+            <li>To paste a whole puzzle, click any cell and paste 81 characters, using a dot or 0 for empty cells.</li>
+            <li>A proper Sudoku has exactly one solution, and needs at least 17 given digits for that.</li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="solver.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
