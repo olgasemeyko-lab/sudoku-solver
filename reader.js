@@ -1,5 +1,6 @@
 // The "Read a puzzle from an image" section of the page.
 // It loads an image, asks vision.js to find and straighten the grid,
+// asks digits.js to read each cell, puts the digits into the grid,
 // and draws every step so you can see what the app saw.
 
 // Big photos are shrunk before searching, which keeps it fast.
@@ -26,6 +27,12 @@ document.getElementById("image-input").addEventListener("change", (event) => {
 document.getElementById("example-image").addEventListener("click", () => {
   readUrl("examples/screenshot.png", { quiet: false });
 });
+
+// After reading an image the user chose, bring the grid into view.
+// (Not for the example shown when the page opens.)
+function showGrid() {
+  board.scrollIntoView({ behavior: "smooth", block: "center" });
+}
 
 reader.addEventListener("dragover", (event) => {
   event.preventDefault();
@@ -64,7 +71,7 @@ function readUrl(url, { quiet, onDone }) {
     // Wait one moment so the message above appears before the work starts.
     setTimeout(() => {
       try {
-        processImage(image);
+        if (processImage(image) && !quiet) showGrid();
       } catch (error) {
         if (quiet) {
           readerStatus.hidden = true;
@@ -99,7 +106,7 @@ function processImage(image) {
     readerSteps.hidden = true;
     showReaderStatus("bad", "No Sudoku grid found.",
       "Use an image where the whole grid is visible, including its thick outer border.");
-    return;
+    return false;
   }
 
   // 2. Straighten it, using the full-size image for the sharpest result
@@ -112,22 +119,42 @@ function processImage(image) {
   }));
   const warped = warpGrid(full, corners, GRID_SIZE);
 
-  // 3. Cut it into cells.
+  // 3. Cut it into cells and read each one.
   const cells = cutCells(warped);
+  const readings = readDigits(cells);
+  loadRecognized(readings);
 
   drawFound(image, smallCorners.map((p) => ({ x: p.x / scale, y: p.y / scale })));
   drawPixels(warpedCanvas, warped);
   cellTiles.innerHTML = "";
   cells.forEach((cell, i) => {
+    const { digit, confidence } = readings[i];
+    const tile = document.createElement("div");
+    tile.className = "tile";
     const canvas = document.createElement("canvas");
-    canvas.setAttribute("aria-label", "Row " + (Math.floor(i / 9) + 1) + ", column " + (i % 9 + 1));
     drawPixels(canvas, cell);
-    cellTiles.appendChild(canvas);
+    tile.appendChild(canvas);
+    const where = "Row " + (Math.floor(i / 9) + 1) + ", column " + (i % 9 + 1);
+    if (digit === 0) {
+      tile.classList.add("empty");
+      tile.title = where + ": empty";
+    } else {
+      const label = document.createElement("span");
+      label.className = "tile-digit";
+      label.textContent = digit;
+      tile.appendChild(label);
+      tile.title = where + ": read as " + digit + " (" + Math.round(confidence * 100) + "% sure)";
+      if (confidence < 0.9) tile.classList.add("unsure");
+    }
+    tile.setAttribute("aria-label", tile.title);
+    cellTiles.appendChild(tile);
   });
 
   readerSteps.hidden = false;
-  showReaderStatus("good", "Found the grid.",
-    "Check that the outline in picture 1 sits on the grid's outer border, and that each small square in picture 3 shows exactly one cell.");
+  const count = readings.filter((r) => r.digit !== 0).length;
+  showReaderStatus("good", "Read " + count + " digits and put them in the grid above.",
+    "Each small square in picture 3 shows the digit that was read in its corner. Hover over one to see how sure the reader was.");
+  return true;
 }
 
 // Draw the image at a given scale and read back its pixels.

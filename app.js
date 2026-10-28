@@ -3,6 +3,7 @@
 // The page keeps two pieces of information:
 //   puzzle   - the 81 digits the user typed (0 = empty)
 //   result   - what the solver said last time Solve was pressed, or null
+//   unsure   - cells read from an image that should be checked by eye
 // Every change updates one of these and then calls render(), which redraws
 // the grid and the status message from scratch. Keeping one "source of truth"
 // like this avoids the page and the data getting out of step.
@@ -22,6 +23,8 @@ const EXAMPLES = {
 
 let puzzle = parseGrid(EXAMPLES.screenshot);
 let result = null;
+// Cells read from an image that the digit reader wasn't sure about.
+let unsure = new Set();
 
 const board = document.getElementById("board");
 const statusBox = document.getElementById("status");
@@ -61,6 +64,7 @@ for (let i = 0; i < 81; i++) {
 function onType(i) {
   const digits = cells[i].value.replace(/[^1-9]/g, "");
   puzzle[i] = digits ? Number(digits.slice(-1)) : 0;
+  unsure.delete(i); // the user has now checked this cell
   result = null; // the puzzle changed, so any old solution is out of date
   render();
   cells[i].select();
@@ -111,6 +115,19 @@ document.getElementById("example-classic").addEventListener("click", () => loadP
 function loadPuzzle(text) {
   puzzle = parseGrid(text);
   result = null;
+  unsure = new Set();
+  render();
+}
+
+// Called by reader.js with the 81 readings from an image.
+// Digits read with less than 90% confidence are marked for checking.
+function loadRecognized(readings) {
+  puzzle = readings.map((r) => r.digit);
+  unsure = new Set();
+  readings.forEach((r, i) => {
+    if (r.digit !== 0 && r.confidence < 0.9) unsure.add(i);
+  });
+  result = null;
   render();
 }
 
@@ -133,6 +150,7 @@ function render() {
     cell.classList.toggle("solved", !given && value !== 0);
     cell.classList.toggle("clash", clashes.has(i));
     cell.classList.toggle("maybe", Boolean(maybe));
+    cell.classList.toggle("unsure", unsure.has(i));
   }
 
   hideButton.disabled = !shown;
@@ -146,6 +164,11 @@ function showStatus(clashCount) {
     if (clashCount > 0) {
       setStatus("bad", "Some digits clash.",
         "The cells in red share a digit with another cell in the same row, column or box. Fix them before solving.");
+    } else if (unsure.size > 0) {
+      setStatus("warn", count + " digits read from your image.",
+        unsure.size === 1
+          ? "One was hard to read and has a dashed outline. Check it against your picture, then press Solve."
+          : unsure.size + " were hard to read and have a dashed outline. Check them against your picture, then press Solve.");
     } else if (count === 0) {
       setStatus("", "The grid is empty.", "Click a cell and type a digit, or load an example.");
     } else if (count < 17) {

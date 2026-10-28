@@ -13,6 +13,7 @@
   --clash-bg: #fbe2e0;
   --maybe: #9a6400;
   --maybe-bg: #fdefd2;
+  --check: #7b3fc4;        /* outline for digits the reader wasn't sure about */
 
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
@@ -32,6 +33,7 @@
     --clash-bg: #43201f;
     --maybe: #f0b54d;
     --maybe-bg: #3b2c12;
+    --check: #c49cff;
     color-scheme: dark;
   }
 }
@@ -49,6 +51,7 @@
   --clash-bg: #43201f;
   --maybe: #f0b54d;
   --maybe-bg: #3b2c12;
+  --check: #c49cff;
   color-scheme: dark;
 }
 
@@ -158,6 +161,7 @@ h2 {
 .cell.solved { color: var(--pencil); font-weight: 400; }
 .cell.maybe { background: var(--maybe-bg); color: var(--maybe); font-weight: 700; }
 .cell.clash { background: var(--clash-bg); color: var(--clash); }
+.cell.unsure { outline: 2px dashed var(--check); outline-offset: -5px; }
 
 /* ---- Legend ---- */
 
@@ -190,6 +194,7 @@ h2 {
 .swatch-solved { color: var(--pencil); font-weight: 400; }
 .swatch-clash { color: var(--clash); background: var(--clash-bg); }
 .swatch-maybe { color: var(--maybe); background: var(--maybe-bg); }
+.swatch-unsure { outline: 2px dashed var(--check); outline-offset: -4px; }
 
 /* ---- Side panel ---- */
 
@@ -314,10 +319,29 @@ h2 {
   max-width: 100%;
 }
 
-.cell-tiles canvas {
-  width: 100%;
-  height: 100%;
+.tile {
+  position: relative;
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 2px;
   background: var(--surface);
 }
+
+.tile canvas { display: block; width: 100%; height: 100%; }
+
+/* The digit the reader saw, in the tile's corner. */
+.tile-digit {
+  position: absolute;
+  right: 1px;
+  bottom: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 1px 2px;
+  border-radius: 2px;
+  background: var(--pencil);
+  color: var(--surface);
+}
+
+.tile.empty canvas { opacity: 0.35; }
+.tile.unsure { outline: 2px dashed var(--check); outline-offset: 1px; }
