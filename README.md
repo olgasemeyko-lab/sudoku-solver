@@ -25,6 +25,15 @@ python3 training/train.py
 The first command draws about 85,000 practice digits in 57 fonts; the second
 trains the network and saves it as `digit-model.js`.
 
+## After changing the app
+
+Run this before committing, so open copies of the app notice the new
+version and offer a Reload button:
+
+```
+node tools/update-version.js
+```
+
 ## Run the tests
 
 Requires [Node.js](https://nodejs.org) 18 or newer.

@@ -57,6 +57,9 @@
 
 * { box-sizing: border-box; }
 
+/* Anything marked hidden stays hidden, even if a style gives it a layout. */
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   background: var(--paper);
@@ -281,3 +284,24 @@ h2 {
 
 /* Shown while a picture is dragged over the page. */
 .board.dragging { outline: 3px dashed var(--pencil); outline-offset: 6px; }
+
+/* ---- "New version available" bar ---- */
+
+.update-bar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 16px;
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--pencil-soft);
+  border-bottom: 1px solid var(--pencil);
+}
+
+.update-bar p { margin: 0; font-weight: 700; }
+.update-bar .btn { padding-block: 6px; }

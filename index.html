@@ -7,13 +7,19 @@
   <meta name="claude:viewport-fit-sides" content="cover">
   <meta name="description" content="Upload a screenshot of a Sudoku: the app finds the grid, reads the digits and solves it. Everything runs in your browser.">
   <meta name="theme-color" content="#eef1f5">
+  <meta name="app-version" content="f127549659">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1.5' y='1.5' width='29' height='29' rx='3' fill='%23fff' stroke='%2318212c' stroke-width='3'/%3E%3Cpath d='M11.5 2v28M20.5 2v28M2 11.5h28M2 20.5h28' stroke='%2318212c' stroke-width='2'/%3E%3Cpath d='M23 14l2 2.5 4-5' fill='none' stroke='%232b5bd1' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=f127549659">
 </head>
 <body>
+  <div id="update-bar" class="update-bar" role="status" hidden>
+    <p>A new version of the app is available.</p>
+    <button id="update-reload" class="btn btn-primary" type="button">Reload</button>
+  </div>
+
   <div class="page">
     <header class="masthead">
       <h1>Sudoku Solver</h1>
@@ -81,11 +87,12 @@
 
   </div>
 
-  <script src="solver.js"></script>
-  <script src="vision.js"></script>
-  <script src="digit-model.js"></script>
-  <script src="digits.js"></script>
-  <script src="app.js"></script>
-  <script src="reader.js"></script>
+  <script src="solver.js?v=f127549659"></script>
+  <script src="vision.js?v=f127549659"></script>
+  <script src="digit-model.js?v=f127549659"></script>
+  <script src="digits.js?v=f127549659"></script>
+  <script src="app.js?v=f127549659"></script>
+  <script src="reader.js?v=f127549659"></script>
+  <script src="update.js?v=f127549659"></script>
 </body>
 </html>
