@@ -24,6 +24,11 @@ document.getElementById("image-input").addEventListener("change", (event) => {
   event.target.value = ""; // so choosing the same file again still works
 });
 
+// The upload button at the top of the page opens the same file picker.
+document.getElementById("upload-top").addEventListener("click", () => {
+  document.getElementById("image-input").click();
+});
+
 document.getElementById("example-image").addEventListener("click", () => {
   readUrl("examples/screenshot.png", { quiet: false });
 });
@@ -67,7 +72,7 @@ function readFile(file) {
 function readUrl(url, { quiet, onDone }) {
   const image = new Image();
   image.onload = () => {
-    showReaderStatus("", "Looking for the grid...", "");
+    showReaderStatus("", "Reading the puzzle...", "");
     // Wait one moment so the message above appears before the work starts.
     setTimeout(() => {
       try {

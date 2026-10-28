@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sudoku Solver</title>
   <meta name="claude:viewport-fit-sides" content="cover">
+  <meta name="description" content="Upload a screenshot of a Sudoku: the app finds the grid, reads the digits and solves it. Everything runs in your browser.">
+  <meta name="theme-color" content="#eef1f5">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1.5' y='1.5' width='29' height='29' rx='3' fill='%23fff' stroke='%2318212c' stroke-width='3'/%3E%3Cpath d='M11.5 2v28M20.5 2v28M2 11.5h28M2 20.5h28' stroke='%2318212c' stroke-width='2'/%3E%3Cpath d='M23 14l2 2.5 4-5' fill='none' stroke='%232b5bd1' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
@@ -14,12 +17,27 @@
   <div class="page">
     <header class="masthead">
       <h1>Sudoku Solver</h1>
-      <p class="lede">Type the puzzle's digits into the grid, or paste all 81 cells as text, then press Solve.</p>
+      <p class="lede">Upload a screenshot of a Sudoku, or type its digits into the grid, then press Solve. Everything runs in your browser; your images aren't sent anywhere.</p>
+      <div class="actions">
+        <button id="upload-top" class="btn btn-primary" type="button">Upload a screenshot</button>
+      </div>
     </header>
 
     <main class="workspace">
       <div class="board-wrap">
         <div id="board" class="board" role="grid" aria-label="Sudoku grid, 9 by 9"></div>
+        <div id="pad" class="pad" aria-label="Number pad: puts a digit in the selected cell">
+          <button class="pad-key" type="button" data-digit="1">1</button>
+          <button class="pad-key" type="button" data-digit="2">2</button>
+          <button class="pad-key" type="button" data-digit="3">3</button>
+          <button class="pad-key" type="button" data-digit="4">4</button>
+          <button class="pad-key" type="button" data-digit="5">5</button>
+          <button class="pad-key" type="button" data-digit="6">6</button>
+          <button class="pad-key" type="button" data-digit="7">7</button>
+          <button class="pad-key" type="button" data-digit="8">8</button>
+          <button class="pad-key" type="button" data-digit="9">9</button>
+          <button class="pad-key pad-erase" type="button" data-digit="0" aria-label="Erase">Erase</button>
+        </div>
         <ul class="legend" aria-label="What the colours mean">
           <li><span class="swatch swatch-given">5</span>Your digit</li>
           <li><span class="swatch swatch-solved">5</span>Filled by the solver</li>
@@ -49,7 +67,7 @@
         <section class="tips" aria-labelledby="tips-title">
           <h2 id="tips-title">Tips</h2>
           <ul>
-            <li>Arrow keys move between cells. Backspace or 0 empties a cell.</li>
+            <li>Tap a cell, then a number below the grid. On a keyboard, type the digit; arrow keys move between cells and Backspace empties a cell.</li>
             <li>To paste a whole puzzle, click any cell and paste 81 characters, using a dot or 0 for empty cells.</li>
             <li>A proper Sudoku has exactly one solution, and needs at least 17 given digits for that.</li>
           </ul>

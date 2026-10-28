@@ -76,7 +76,7 @@ body {
   gap: 24px;
 }
 
-.masthead { display: grid; gap: 6px; }
+.masthead { display: grid; gap: 10px; }
 
 h1 {
   margin: 0;
@@ -162,6 +162,40 @@ h2 {
 .cell.maybe { background: var(--maybe-bg); color: var(--maybe); font-weight: 700; }
 .cell.clash { background: var(--clash-bg); color: var(--clash); }
 .cell.unsure { outline: 2px dashed var(--check); outline-offset: -5px; }
+
+/* ---- Number pad ---- */
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 6px;
+  max-width: 480px;
+}
+
+@media (max-width: 520px) {
+  .pad { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+.pad-key {
+  min-height: 46px;
+  min-width: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  touch-action: manipulation; /* no double-tap zoom on phones */
+}
+
+.pad-key:hover { border-color: var(--ink); }
+.pad-key:active { background: var(--pencil-soft); }
+.pad-key:focus-visible { outline: 3px solid var(--pencil); outline-offset: 2px; }
+.pad-erase { font-size: 0.8rem; }
 
 /* ---- Legend ---- */
 

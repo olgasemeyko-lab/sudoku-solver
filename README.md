@@ -2,13 +2,15 @@
 
 Recognize a Sudoku from a screenshot and solve it, all in the browser.
 
+**Try it:** https://olgasemeyko-lab.github.io/sudoku-solver/
+
 ## Status
 
 - [x] Step 1: solver, with checks for conflicting digits, no solution, and more than one solution
 - [x] Step 2: web page with an editable grid
 - [x] Step 3: find the grid in an uploaded image, straighten it and cut it into 81 cells
 - [x] Step 4: read the digits with a small neural network (99.5% correct on fonts it never saw in training)
-- [ ] Step 5: polish and publish on GitHub Pages
+- [x] Step 5: number pad and upload button for phones; published on GitHub Pages
 
 ## Retrain the digit reader
 

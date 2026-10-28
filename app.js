@@ -31,6 +31,7 @@ const statusBox = document.getElementById("status");
 const solveButton = document.getElementById("solve");
 const hideButton = document.getElementById("hide");
 const cells = [];
+let selected = 0; // the cell the number pad types into
 
 // ---- Build the 81 cells ----
 
@@ -45,11 +46,16 @@ for (let i = 0; i < 81; i++) {
   if (col === 8) cell.classList.add("last-col");
   if (row === 8) cell.classList.add("last-row");
   cell.type = "text";
-  cell.inputMode = "numeric"; // shows a number keyboard on phones
+  // On touch screens, hide the phone's keyboard (it would cover the grid);
+  // the number pad under the grid is used instead.
+  cell.inputMode = window.matchMedia("(pointer: coarse)").matches ? "none" : "numeric";
   cell.autocomplete = "off";
   cell.setAttribute("aria-label", "Row " + (row + 1) + ", column " + (col + 1));
 
-  cell.addEventListener("focus", () => cell.select());
+  cell.addEventListener("focus", () => {
+    selected = i;
+    cell.select();
+  });
   cell.addEventListener("input", () => onType(i));
   cell.addEventListener("keydown", (event) => onKey(event, i));
 
@@ -63,12 +69,30 @@ for (let i = 0; i < 81; i++) {
 // so typing over an existing digit replaces it.
 function onType(i) {
   const digits = cells[i].value.replace(/[^1-9]/g, "");
-  puzzle[i] = digits ? Number(digits.slice(-1)) : 0;
+  setCell(i, digits ? Number(digits.slice(-1)) : 0);
+  cells[i].select();
+}
+
+// Put a digit (or 0 for empty) in a cell.
+function setCell(i, digit) {
+  puzzle[i] = digit;
   unsure.delete(i); // the user has now checked this cell
   result = null; // the puzzle changed, so any old solution is out of date
   render();
-  cells[i].select();
 }
+
+// The number pad under the grid.
+const pad = document.getElementById("pad");
+// Keep the selected cell focused when a pad key is pressed.
+pad.addEventListener("pointerdown", (event) => {
+  if (event.target.closest(".pad-key")) event.preventDefault();
+});
+pad.addEventListener("click", (event) => {
+  const key = event.target.closest(".pad-key");
+  if (!key) return;
+  setCell(selected, Number(key.dataset.digit));
+  cells[selected].focus();
+});
 
 // Arrow keys move around the grid.
 function onKey(event, i) {
