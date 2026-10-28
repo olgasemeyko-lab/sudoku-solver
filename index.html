@@ -55,9 +55,43 @@
         </section>
       </aside>
     </main>
+
+    <section id="reader" class="reader" aria-labelledby="reader-title">
+      <div class="reader-head">
+        <h2 id="reader-title" class="section-title">Read a puzzle from an image</h2>
+        <p class="lede">Upload a screenshot or scan of a Sudoku. The app finds the grid, straightens it and cuts it into 81 cells. Reading the digits comes next; for now, type them into the grid above.</p>
+        <div class="actions">
+          <label class="btn btn-primary file-button">
+            Upload image
+            <input id="image-input" type="file" accept="image/*">
+          </label>
+          <button id="example-image" class="btn btn-quiet" type="button">Use your example screenshot</button>
+        </div>
+        <p class="hint">You can also drag an image onto this section, or paste one with Ctrl+V (Cmd+V on a Mac).</p>
+      </div>
+
+      <p id="reader-status" class="status" role="status" aria-live="polite" hidden></p>
+
+      <div id="reader-steps" class="reader-steps" hidden>
+        <figure>
+          <figcaption><span class="step-no">1</span> Grid found</figcaption>
+          <canvas id="found-canvas" class="shot" aria-label="Your image with the detected grid outlined"></canvas>
+        </figure>
+        <figure>
+          <figcaption><span class="step-no">2</span> Straightened</figcaption>
+          <canvas id="warped-canvas" class="shot" aria-label="The grid, straightened into a square"></canvas>
+        </figure>
+        <figure>
+          <figcaption><span class="step-no">3</span> Cut into 81 cells</figcaption>
+          <div id="cell-tiles" class="cell-tiles" aria-label="The 81 cell images"></div>
+        </figure>
+      </div>
+    </section>
   </div>
 
   <script src="solver.js"></script>
+  <script src="vision.js"></script>
   <script src="app.js"></script>
+  <script src="reader.js"></script>
 </body>
 </html>

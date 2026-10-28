@@ -235,3 +235,89 @@ h2 {
 .btn-primary:hover:not(:disabled) { border-color: var(--ink); }
 
 .btn-quiet { font-weight: 400; }
+
+/* ---- Reading from an image ---- */
+
+.reader {
+  display: grid;
+  gap: 20px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.reader.dragging { outline: 3px dashed var(--pencil); outline-offset: 8px; }
+
+.reader-head { display: grid; gap: 12px; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.hint { margin: 0; font-size: 0.875rem; color: var(--muted); }
+
+/* The real file input is hidden; the label around it looks like a button. */
+.file-button { position: relative; }
+.file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.file-button:focus-within { outline: 3px solid var(--pencil); outline-offset: 2px; }
+
+.reader-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 760px) {
+  .reader-steps { grid-template-columns: minmax(0, 1fr); }
+}
+
+.reader-steps figure { margin: 0; display: grid; gap: 10px; align-content: start; min-width: 0; }
+
+.reader-steps figcaption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.step-no {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.8rem;
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.cell-tiles {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 3px;
+  aspect-ratio: 1;
+  max-width: 100%;
+}
+
+.cell-tiles canvas {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--surface);
+}
