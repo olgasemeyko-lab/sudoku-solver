@@ -33,7 +33,8 @@ MODEL_FILE = HERE.parent / "digit-model.js"
 # copes with lettering it has never seen.
 UNSEEN_FONTS = ["Lato", "Merriweather", "Space Mono", "Josefin Sans", "Liberation Serif", "Comfortaa"]
 
-EPOCHS = 8        # how many times we go through all the practice digits
+EPOCHS = 2        # passes through all the practice digits; more makes it
+                  # memorise the training fonts and do worse on new ones
 BATCH = 128       # digits per small step
 LEARNING_RATE = 0.002
 
